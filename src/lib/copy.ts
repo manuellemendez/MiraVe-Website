@@ -19,7 +19,6 @@ export const copy = {
       floatLocal: "Local ×2",
       floatFair: "Sin anuncios",
     },
-    marquee: ["Locales ×2", "Sin anuncios", "Rotación diaria", "Hecha en Cali"],
     strip: {
       items: [
         {
@@ -163,7 +162,6 @@ export const copy = {
       floatLocal: "Local ×2",
       floatFair: "No ads",
     },
-    marquee: ["Locals ×2", "No ads", "Daily shuffle", "Made in Cali"],
     strip: {
       items: [
         {

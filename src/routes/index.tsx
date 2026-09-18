@@ -4,7 +4,6 @@ import { City } from "@/components/landing/city";
 import { Footer } from "@/components/landing/footer";
 import { Header } from "@/components/landing/header";
 import { Hero } from "@/components/landing/hero";
-import { Marquee } from "@/components/landing/marquee";
 import { Principles } from "@/components/landing/principles";
 import { Rotation } from "@/components/landing/rotation";
 import { Showcase } from "@/components/landing/showcase";
@@ -20,7 +19,6 @@ function Home() {
       <Header />
       <main>
         <Hero />
-        <Marquee />
         <Strip />
         <Rotation />
         <Principles />
