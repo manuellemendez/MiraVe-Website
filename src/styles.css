@@ -1,0 +1,217 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme {
+  --color-ink: #0b0b0b;
+  --color-carbon: #3a3a37;
+  --color-muted: #62625d;
+  --color-control: #86867f;
+  --color-line: #e8e7e1;
+  --color-cream: #ffffff;
+  --color-sand: #f4f3ee;
+  --color-paper: #ffffff;
+  --color-foam: #0b0b0b;
+  --color-clay: #b02640;
+  --color-clay-deep: #8c1b31;
+  --color-clay-tint: #f7e8ea;
+  --color-mango: #8a6a38;
+  --color-mango-tint: #f4efe3;
+  --color-palma: #1b7340;
+  --color-palma-tint: #eef1d8;
+  --color-arena: #f2e2ce;
+  --color-blanco: #fafaf7;
+  --color-signal: #5ccb76;
+  --color-alert: #b4321a;
+  --color-on-photo: #f4f4f0;
+  --font-display: "League Spartan", Futura, sans-serif;
+  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --radius-xs: 6px;
+  --radius-sm: 11px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+  --radius-xl: 32px;
+  --radius-pill: 999px;
+  --shadow-card: 0 18px 40px -24px rgb(11 11 11 / 0.28);
+  --shadow-card-hover: 0 22px 44px -20px rgb(11 11 11 / 0.34);
+  --shadow-phone: 0 28px 64px -20px rgb(11 11 11 / 0.5);
+  --shadow-nav: 0 1px 0 rgb(11 11 11 / 0.06);
+  --shadow-nav-dark: 0 1px 0 rgb(244 244 240 / 0.08);
+  --max-height-phone: 32rem;
+  --ease-out-smooth: cubic-bezier(0.23, 1, 0.32, 1);
+  --text-caption2: 0.6875rem;
+  --text-caption1: 0.75rem;
+  --text-footnote: 0.8125rem;
+  --text-subheadline: 0.9375rem;
+  --text-headline: 1.0625rem;
+  --text-body: 1.0625rem;
+  --text-title3: 1.25rem;
+  --text-title2: 1.375rem;
+  --text-title1: 1.75rem;
+  --text-large-title: 2.125rem;
+  --text-display-tile: 1.25rem;
+  --text-display-card: 1.75rem;
+  --text-display-hero: 2.75rem;
+  --text-display-page: clamp(3rem, 7.2vw, 6.25rem);
+  --text-section: clamp(2rem, 3.6vw, 3.25rem);
+  --text-ghost: clamp(5.5rem, 16vw, 13rem);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-blanco);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: var(--color-arena);
+    color: var(--color-ink);
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  img {
+    outline: 1px solid rgb(11 11 11 / 0.08);
+    outline-offset: -1px;
+  }
+
+  img.no-outline {
+    outline: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .stagger-item,
+  .animate-marquee {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.stagger-item {
+  opacity: 0;
+  animation: fade-up 0.5s var(--ease-out-smooth) forwards;
+}
+
+.stagger-item:nth-child(1) {
+  animation-delay: 0ms;
+}
+.stagger-item:nth-child(2) {
+  animation-delay: 80ms;
+}
+.stagger-item:nth-child(3) {
+  animation-delay: 160ms;
+}
+.stagger-item:nth-child(4) {
+  animation-delay: 240ms;
+}
+.stagger-item:nth-child(5) {
+  animation-delay: 320ms;
+}
+
+.animate-marquee {
+  animation: marquee 32s linear infinite;
+}
+
+.marquee-track:hover .animate-marquee {
+  animation-play-state: paused;
+}
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.94;
+  text-transform: uppercase;
+}
+
+.label-caps {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.phone-shot {
+  filter: drop-shadow(var(--shadow-phone));
+}
+
+.hero-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity: 0.04;
+}
+
+.ghost-mark {
+  color: rgb(255 255 255 / 0.045);
+}
+
+.hero-pin {
+  height: 200vh;
+}
+
+.hero-pin-inner {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-pin {
+    height: auto;
+    min-height: 100dvh;
+  }
+
+  .hero-pin-inner {
+    position: relative;
+    height: auto;
+    min-height: 100dvh;
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:8080/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "Mira Ve",
+      "hasCanvas": false,
+      "bodyTextLen": 3614,
+      "bodyTextHash": "465dd638903a55408c9a2c003358d8c185f7c26bf1d14de490de2c7b19be03e0",
+      "bodyTextPrefix": "MIRA VE HOY CÓMO LA APP LISTA ES EN Avísame MIRA VE CALI · COLOM",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "Mira Ve",
+      "hasCanvas": false,
+      "bodyTextLen": 3554,
+      "bodyTextHash": "3ab7b16c6deccb1c86219fe8f0029fe99d9245090eedba547280fed07b3e297d",
+      "bodyTextPrefix": "MIRA VE ES EN CALI · COLOMBIA ¿QUÉ COMEMOS HOY. Restaurantes en ",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-preview.json"
+}
