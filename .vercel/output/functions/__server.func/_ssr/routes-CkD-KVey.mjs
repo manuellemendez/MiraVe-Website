@@ -5,9 +5,9 @@ import { a as Star, c as Check, l as Bookmark, n as Utensils, o as Mountain, r a
 import { n as clsx, t as cva } from "../_libs/class-variance-authority+clsx.mjs";
 import { t as extendTailwindMerge } from "../_libs/tailwind-merge.mjs";
 import { t as Slot } from "../_libs/radix-ui__react-slot.mjs";
-import { i as useMotionValueEvent, n as useTransform, o as LayoutGroup, r as useScroll, t as useReducedMotion } from "../_libs/framer-motion+[...].mjs";
+import { a as useMotionValue, i as useTransform, l as LayoutGroup, n as useReducedMotion, o as useScroll, r as useAnimationFrame, s as useMotionValueEvent, t as useInView, u as AnimatePresence } from "../_libs/framer-motion+[...].mjs";
 import { t as motion } from "../_libs/motion.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-Cpg1EwBV.js
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-CkD-KVey.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var copy = {
@@ -31,14 +31,9 @@ var copy = {
 				"Cerca de ti"
 			],
 			floatLocal: "Local ×2",
-			floatFair: "Sin anuncios"
+			floatFair: "Sin anuncios",
+			reviewBadge: "Local"
 		},
-		marquee: [
-			"Locales ×2",
-			"Sin anuncios",
-			"Rotación diaria",
-			"Hecha en Cali"
-		],
 		strip: { items: [
 			{
 				title: "Las reseñas locales pesan el doble",
@@ -181,14 +176,9 @@ var copy = {
 				"Near you"
 			],
 			floatLocal: "Local ×2",
-			floatFair: "No ads"
+			floatFair: "No ads",
+			reviewBadge: "Local"
 		},
-		marquee: [
-			"Locals ×2",
-			"No ads",
-			"Daily shuffle",
-			"Made in Cali"
-		],
 		strip: { items: [
 			{
 				title: "Local reviews count double",
@@ -754,6 +744,466 @@ function Header() {
 		}) : null]
 	});
 }
+var DEMO_SCREENS = {
+	discover: "/screens/discover.png",
+	map: "/screens/map.png",
+	saved: "/screens/saved.png",
+	how: "/screens/how.png"
+};
+var ORDER = [
+	"discover",
+	"map",
+	"saved",
+	"how"
+];
+var KEYFRAMES = [
+	{
+		t: 0,
+		screen: "discover",
+		fx: 52,
+		fy: 84,
+		fo: 0,
+		px: 0,
+		py: 0
+	},
+	{
+		t: 450,
+		screen: "discover",
+		fx: 54,
+		fy: 68,
+		fo: 1,
+		px: 0,
+		py: 0
+	},
+	{
+		t: 1600,
+		screen: "discover",
+		fx: 50,
+		fy: 46,
+		fo: 1,
+		px: 0,
+		py: -5.5
+	},
+	{
+		t: 2300,
+		screen: "discover",
+		fx: 51,
+		fy: 40,
+		fo: 1,
+		px: 0,
+		py: -6.5
+	},
+	{
+		t: 2500,
+		screen: "discover",
+		fx: 51,
+		fy: 40,
+		fo: 1,
+		px: 0,
+		py: -6.5,
+		tap: true
+	},
+	{
+		t: 3400,
+		screen: "map",
+		fx: 40,
+		fy: 62,
+		fo: 1,
+		px: 0,
+		py: 0
+	},
+	{
+		t: 4600,
+		screen: "map",
+		fx: 61,
+		fy: 48,
+		fo: 1,
+		px: 4,
+		py: 3
+	},
+	{
+		t: 4900,
+		screen: "map",
+		fx: 61,
+		fy: 48,
+		fo: 1,
+		px: 4,
+		py: 3,
+		tap: true
+	},
+	{
+		t: 5800,
+		screen: "saved",
+		fx: 50,
+		fy: 64,
+		fo: 1,
+		px: 0,
+		py: 0
+	},
+	{
+		t: 7e3,
+		screen: "saved",
+		fx: 48,
+		fy: 42,
+		fo: 1,
+		px: 0,
+		py: -5
+	},
+	{
+		t: 7400,
+		screen: "saved",
+		fx: 48,
+		fy: 42,
+		fo: 1,
+		px: 0,
+		py: -5,
+		tap: true
+	},
+	{
+		t: 8300,
+		screen: "how",
+		fx: 52,
+		fy: 54,
+		fo: .85,
+		px: 0,
+		py: 0
+	},
+	{
+		t: 10800,
+		screen: "how",
+		fx: 52,
+		fy: 82,
+		fo: 0,
+		px: 0,
+		py: 0
+	},
+	{
+		t: 11800,
+		screen: "discover",
+		fx: 52,
+		fy: 84,
+		fo: 0,
+		px: 0,
+		py: 0
+	}
+];
+var LOOP = 12400;
+function lerp(a, b, t) {
+	return a + (b - a) * t;
+}
+function easeOut(t) {
+	return 1 - (1 - t) ** 3;
+}
+function sample(ms) {
+	const t = (ms % LOOP + LOOP) % LOOP;
+	let i = 0;
+	for (let n = 0; n < KEYFRAMES.length - 1; n++) if (KEYFRAMES[n + 1].t <= t) i = n + 1;
+	const a = KEYFRAMES[i];
+	const b = KEYFRAMES[i + 1] ?? a;
+	const e = easeOut(b.t === a.t ? 1 : Math.min(1, (t - a.t) / (b.t - a.t)));
+	return {
+		t,
+		screen: a.screen,
+		fx: lerp(a.fx, b.fx, e),
+		fy: lerp(a.fy, b.fy, e),
+		fo: lerp(a.fo, b.fo, e),
+		px: lerp(a.px, b.px, e),
+		py: lerp(a.py, b.py, e),
+		tapId: a.tap && t - a.t < 90 ? a.t : null
+	};
+}
+function PhoneDemo({ className, alt, autoplay = true, screen }) {
+	const reduceMotion = useReducedMotion();
+	const rootRef = (0, import_react.useRef)(null);
+	const inView = useInView(rootRef, { amount: .35 });
+	const playing = autoplay && reduceMotion !== true && inView;
+	const [active, setActive] = (0, import_react.useState)(screen ?? "discover");
+	const [pressed, setPressed] = (0, import_react.useState)(false);
+	const [ripple, setRipple] = (0, import_react.useState)(null);
+	const fx = useMotionValue(52);
+	const fy = useMotionValue(84);
+	const fo = useMotionValue(0);
+	const fingerLeft = useTransform(fx, (v) => `${v}%`);
+	const fingerTop = useTransform(fy, (v) => `${v}%`);
+	const clock = (0, import_react.useRef)(0);
+	const origin = (0, import_react.useRef)(null);
+	const screenRef = (0, import_react.useRef)(active);
+	const tapRef = (0, import_react.useRef)(null);
+	const pressTimer = (0, import_react.useRef)(0);
+	(0, import_react.useEffect)(() => {
+		if (!autoplay && screen) {
+			setActive(screen);
+			screenRef.current = screen;
+		}
+	}, [autoplay, screen]);
+	(0, import_react.useEffect)(() => {
+		ORDER.forEach((id) => {
+			const img = new Image();
+			img.src = DEMO_SCREENS[id];
+		});
+	}, []);
+	useAnimationFrame((time) => {
+		if (!playing) {
+			origin.current = null;
+			return;
+		}
+		if (origin.current == null) origin.current = time - clock.current;
+		clock.current = time - origin.current;
+		const k = sample(clock.current);
+		fx.set(k.fx);
+		fy.set(k.fy);
+		fo.set(k.fo);
+		if (k.screen !== screenRef.current) {
+			screenRef.current = k.screen;
+			setActive(k.screen);
+		}
+		if (k.tapId != null && tapRef.current !== k.tapId) {
+			tapRef.current = k.tapId;
+			setPressed(true);
+			setRipple({
+				id: k.tapId,
+				x: k.fx,
+				y: k.fy
+			});
+			window.clearTimeout(pressTimer.current);
+			pressTimer.current = window.setTimeout(() => setPressed(false), 160);
+		}
+	});
+	const live = autoplay ? active : screen ?? active;
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
+		ref: rootRef,
+		className: "phone-demo relative mx-auto w-fit",
+		animate: { scale: pressed ? .975 : 1 },
+		transition: {
+			duration: .16,
+			ease: [
+				.22,
+				1,
+				.36,
+				1
+			]
+		},
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			className: "phone-demo-stage relative",
+			children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+					src: DEMO_SCREENS.discover,
+					alt: "",
+					"aria-hidden": "true",
+					className: cn("no-outline invisible h-auto w-auto max-w-full", className)
+				}),
+				ORDER.map((id) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.img, {
+					src: DEMO_SCREENS[id],
+					alt: id === live ? alt : "",
+					className: "phone-demo-screen no-outline pointer-events-none absolute inset-0 size-full object-contain",
+					animate: { opacity: id === live ? 1 : 0 },
+					transition: {
+						duration: .38,
+						ease: [
+							.22,
+							1,
+							.36,
+							1
+						]
+					}
+				}, id)),
+				playing ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.span, {
+					"aria-hidden": "true",
+					className: "phone-touch",
+					style: {
+						left: fingerLeft,
+						top: fingerTop,
+						opacity: fo
+					}
+				}) : null,
+				playing && ripple ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+					"aria-hidden": "true",
+					className: "phone-ripple",
+					style: {
+						left: `${ripple.x}%`,
+						top: `${ripple.y}%`
+					}
+				}, ripple.id) : null
+			]
+		})
+	});
+}
+var REVIEWS = [
+	{
+		who: "Camila",
+		place: "El Deleite del Mar",
+		barrio: "Granada",
+		stars: 5,
+		local: true
+	},
+	{
+		who: "Andrés",
+		place: "Ioenta",
+		barrio: "San Antonio",
+		stars: 5,
+		local: true
+	},
+	{
+		who: "Valentina",
+		place: "Palomulata",
+		barrio: "La Flora",
+		stars: 4,
+		local: false
+	},
+	{
+		who: "Mateo",
+		place: "Platillos Voladores",
+		barrio: "Centro",
+		stars: 5,
+		local: true
+	}
+];
+var EASE = [
+	.22,
+	1,
+	.36,
+	1
+];
+function StarRow({ value }) {
+	const [lit, setLit] = (0, import_react.useState)(0);
+	(0, import_react.useEffect)(() => {
+		setLit(0);
+		const timers = [];
+		for (let i = 1; i <= value; i++) timers.push(window.setTimeout(() => setLit(i), 140 + i * 95));
+		return () => timers.forEach((id) => window.clearTimeout(id));
+	}, [value]);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		className: "flex items-center gap-0.5",
+		"aria-hidden": "true",
+		children: Array.from({ length: 5 }, (_, i) => {
+			const on = i < lit;
+			return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.span, {
+				className: "inline-flex",
+				initial: {
+					opacity: 0,
+					scale: .25,
+					filter: "blur(4px)"
+				},
+				animate: {
+					opacity: on ? 1 : .3,
+					scale: 1,
+					filter: "blur(0px)"
+				},
+				transition: {
+					type: "spring",
+					duration: .3,
+					bounce: 0
+				},
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Star, {
+					className: cn("size-3.5", on ? "fill-cream text-cream" : "fill-none text-cream/45"),
+					strokeWidth: 1.6
+				})
+			}, i);
+		})
+	});
+}
+function ReviewCard({ review, localLabel, className }) {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(motion.div, {
+		initial: {
+			opacity: 0,
+			y: 12,
+			filter: "blur(4px)"
+		},
+		animate: {
+			opacity: 1,
+			y: 0,
+			filter: "blur(0px)"
+		},
+		exit: {
+			opacity: 0,
+			y: -12,
+			filter: "blur(4px)",
+			transition: {
+				duration: .15,
+				ease: "easeIn"
+			}
+		},
+		transition: {
+			duration: .4,
+			ease: EASE
+		},
+		className: cn("pointer-events-none w-[11.75rem] rounded-sm border border-cream/15 bg-foam/88 p-3 shadow-nav-dark backdrop-blur-sm", className),
+		children: [
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "flex items-center justify-between gap-2",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+					className: "text-caption1 font-semibold text-cream",
+					children: review.who
+				}), review.local ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+					className: "label-caps text-[0.625rem] text-cream/55",
+					children: localLabel
+				}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+					className: "text-caption2 text-cream/40",
+					children: review.barrio
+				})]
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+				className: "mt-0.5 truncate text-footnote text-cream/65",
+				children: review.place
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "mt-2 flex items-center gap-2",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(StarRow, { value: review.stars }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+					className: "text-caption2 tabular-nums text-cream/50",
+					children: [review.stars, ",0"]
+				})]
+			})
+		]
+	});
+}
+function ReviewFloats() {
+	const { t } = useLanguage();
+	const reduce = useReducedMotion();
+	const rootRef = (0, import_react.useRef)(null);
+	const inView = useInView(rootRef, { amount: .35 });
+	const [left, setLeft] = (0, import_react.useState)(0);
+	const [right, setRight] = (0, import_react.useState)(1);
+	const playing = reduce !== true && inView;
+	const localLabel = t.hero.reviewBadge;
+	(0, import_react.useEffect)(() => {
+		if (!playing) return;
+		const leftTick = window.setInterval(() => {
+			setLeft((v) => (v + 2) % REVIEWS.length);
+		}, 6400);
+		let rightTick = 0;
+		const delay = window.setTimeout(() => {
+			const rotate = () => setRight((v) => (v + 2) % REVIEWS.length);
+			rotate();
+			rightTick = window.setInterval(rotate, 6400);
+		}, 3e3);
+		return () => {
+			window.clearInterval(leftTick);
+			window.clearInterval(rightTick);
+			window.clearTimeout(delay);
+		};
+	}, [playing]);
+	const leftReview = REVIEWS[left];
+	const rightReview = REVIEWS[right];
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+		ref: rootRef,
+		className: "pointer-events-none absolute inset-0 z-10 hidden sm:block",
+		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(AnimatePresence, {
+			mode: "wait",
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ReviewCard, {
+				review: leftReview,
+				localLabel,
+				className: "absolute top-[16%] left-0 -translate-x-[38%] lg:-translate-x-[48%]"
+			}, `l-${leftReview.who}`)
+		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AnimatePresence, {
+			mode: "wait",
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ReviewCard, {
+				review: rightReview,
+				localLabel,
+				className: "absolute top-[50%] right-0 translate-x-[38%] lg:translate-x-[52%]"
+			}, `r-${rightReview.who}`)
+		})]
+	});
+}
 function clamp01(n) {
 	return Math.max(0, Math.min(1, n));
 }
@@ -887,45 +1337,14 @@ function Hero() {
 							})
 						] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 							className: "stagger-item relative mx-auto w-full max-w-xs lg:max-w-sm",
-							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
-									src: "/screens/discover.png",
-									alt: t.hero.title,
-									className: "phone-shot no-outline mx-auto h-auto max-h-56 w-auto max-w-full sm:max-h-80 lg:max-h-phone"
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-									className: "absolute top-8 -left-3 hidden rounded-md border border-cream/15 bg-foam/80 px-3 py-2 text-caption1 font-semibold tracking-wide text-cream uppercase backdrop-blur-sm sm:block",
-									children: t.hero.floatLocal
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-									className: "absolute top-1/2 -right-3 hidden -translate-y-1/2 rounded-md border border-cream/15 bg-foam/80 px-3 py-2 text-caption1 font-semibold tracking-wide text-cream uppercase backdrop-blur-sm sm:block lg:-right-6",
-									children: t.hero.floatFair
-								})
-							]
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(PhoneDemo, {
+								alt: t.hero.title,
+								className: "max-h-56 sm:max-h-80 lg:max-h-phone"
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ReviewFloats, {})]
 						})]
 					})
 				})
 			]
-		})
-	});
-}
-function Marquee() {
-	const { t } = useLanguage();
-	const items = [...neighborhoods, ...t.marquee];
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-		className: "marquee-track overflow-hidden border-y border-mango/25 bg-arena py-3 select-none",
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-			className: "animate-marquee flex w-max whitespace-nowrap",
-			children: [0, 1].map((copyIndex) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "flex shrink-0 items-center",
-				children: items.map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
-					className: "inline-flex items-center gap-5 px-5",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-						className: "label-caps text-ink/75",
-						children: item
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "size-1 shrink-0 rounded-full bg-clay/50" })]
-				}, `${copyIndex}-${item}`))
-			}, copyIndex))
 		})
 	});
 }
@@ -1079,12 +1498,6 @@ function Rotation() {
 		})
 	});
 }
-var screens = {
-	discover: "/screens/discover.png",
-	map: "/screens/map.png",
-	saved: "/screens/saved.png",
-	how: "/screens/how.png"
-};
 function Showcase() {
 	const { t } = useLanguage();
 	const [active, setActive] = (0, import_react.useState)("discover");
@@ -1135,11 +1548,12 @@ function Showcase() {
 				})
 			] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 				className: "flex justify-center lg:justify-end",
-				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
-					src: screens[active],
-					alt: current?.label,
-					className: "phone-shot no-outline mx-auto h-auto max-h-phone w-auto max-w-full"
-				}, active)
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PhoneDemo, {
+					autoplay: false,
+					screen: active,
+					alt: current?.label ?? t.showcase.title,
+					className: "max-h-phone"
+				})
 			})]
 		})
 	});
@@ -1327,7 +1741,6 @@ function Home() {
 		/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Header, {}),
 		/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", { children: [
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hero, {}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Marquee, {}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Strip, {}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Rotation, {}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Principles, {}),

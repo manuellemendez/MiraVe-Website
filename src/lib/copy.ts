@@ -18,6 +18,7 @@ export const copy = {
       chips: ["Abierto ahora", "En tendencia", "Cerca de ti"],
       floatLocal: "Local ×2",
       floatFair: "Sin anuncios",
+      reviewBadge: "Local",
     },
     strip: {
       items: [
@@ -161,6 +162,7 @@ export const copy = {
       chips: ["Open now", "Trending this week", "Near you"],
       floatLocal: "Local ×2",
       floatFair: "No ads",
+      reviewBadge: "Local",
     },
     strip: {
       items: [

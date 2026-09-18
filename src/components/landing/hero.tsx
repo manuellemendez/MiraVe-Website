@@ -8,6 +8,8 @@ import {
   useTransform,
 } from "motion/react";
 import { Button } from "@/components/ui/button";
+import { PhoneDemo } from "@/components/landing/phone-demo";
+import { ReviewFloats } from "@/components/landing/review-floats";
 import { useLanguage } from "@/lib/language";
 
 function clamp01(n: number) {
@@ -148,17 +150,11 @@ export function Hero() {
             </div>
 
             <div className="stagger-item relative mx-auto w-full max-w-xs lg:max-w-sm">
-              <img
-                src="/screens/discover.png"
+              <PhoneDemo
                 alt={t.hero.title}
-                className="phone-shot no-outline mx-auto h-auto max-h-56 w-auto max-w-full sm:max-h-80 lg:max-h-phone"
+                className="max-h-56 sm:max-h-80 lg:max-h-phone"
               />
-              <span className="absolute top-8 -left-3 hidden rounded-md border border-cream/15 bg-foam/80 px-3 py-2 text-caption1 font-semibold tracking-wide text-cream uppercase backdrop-blur-sm sm:block">
-                {t.hero.floatLocal}
-              </span>
-              <span className="absolute top-1/2 -right-3 hidden -translate-y-1/2 rounded-md border border-cream/15 bg-foam/80 px-3 py-2 text-caption1 font-semibold tracking-wide text-cream uppercase backdrop-blur-sm sm:block lg:-right-6">
-                {t.hero.floatFair}
-              </span>
+              <ReviewFloats />
             </div>
           </div>
         </motion.div>

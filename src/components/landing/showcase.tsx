@@ -1,19 +1,11 @@
 import { useState } from "react";
+import { PhoneDemo, type DemoScreen } from "@/components/landing/phone-demo";
 import { useLanguage } from "@/lib/language";
 import { cn } from "@/lib/utils";
 
-const screens: Record<string, string> = {
-  discover: "/screens/discover.png",
-  map: "/screens/map.png",
-  saved: "/screens/saved.png",
-  how: "/screens/how.png",
-};
-
 export function Showcase() {
   const { t } = useLanguage();
-  const [active, setActive] = useState<(typeof t.showcase.tabs)[number]["id"]>(
-    "discover",
-  );
+  const [active, setActive] = useState<DemoScreen>("discover");
   const current =
     t.showcase.tabs.find((tab) => tab.id === active) ?? t.showcase.tabs[0];
 
@@ -42,7 +34,7 @@ export function Showcase() {
                 type="button"
                 role="tab"
                 aria-selected={active === tab.id}
-                onClick={() => setActive(tab.id)}
+                onClick={() => setActive(tab.id as DemoScreen)}
                 className={cn(
                   "flex min-h-11 items-start gap-4 rounded-md px-4 py-3 text-left transition-colors",
                   active === tab.id
@@ -77,11 +69,11 @@ export function Showcase() {
         </div>
 
         <div className="flex justify-center lg:justify-end">
-          <img
-            key={active}
-            src={screens[active]}
-            alt={current?.label}
-            className="phone-shot no-outline mx-auto h-auto max-h-phone w-auto max-w-full"
+          <PhoneDemo
+            autoplay={false}
+            screen={active}
+            alt={current?.label ?? t.showcase.title}
+            className="max-h-phone"
           />
         </div>
       </div>

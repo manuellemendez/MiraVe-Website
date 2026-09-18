@@ -1,4 +1,4 @@
-import { a as motion$1 } from "./framer-motion+[...].mjs";
+import { c as motion$1 } from "./framer-motion+[...].mjs";
 //#region node_modules/motion/dist/es/react.mjs
 var motion = motion$1;
 //#endregion
